@@ -48,13 +48,12 @@ spring:
               filters:
                 - RewritePath=/api/public/courses, /courses
 
-      # Tao truoc de buoi sau khong can cap nhat
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: "http://localhost:5173"
-            allowedMethods: "*"
-            allowedHeaders: "*"
+# CORS tap trung tai Gateway. Luu y: Gateway dung variant WebMVC
+# (spring-cloud-starter-gateway-server-webmvc) nen block globalcors cua WebFlux
+# KHONG co tac dung - CORS duoc xu ly boi CorsFilter trong config/CorsConfig.java
+app:
+  cors:
+    allowed-origins: http://localhost:5173
 
 jwt:
   secret: CRS-Microservices-Secret-Key-Nam-3-Hoc-Ky-2026-Doi-Trong-Thuc-Te
