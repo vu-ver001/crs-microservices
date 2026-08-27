@@ -10,30 +10,29 @@ export default function Pagination({ currentPage, totalPages, onPageChange }: Pa
   const pages = Array.from({ length: totalPages }, (_, i) => i);
 
   return (
-    <div style={{ display: 'flex', gap: 6, marginTop: 16 }}>
+    <div className="pagination">
       <button
+        className="page-btn page-nav"
         disabled={currentPage === 0}
         onClick={() => onPageChange(currentPage - 1)}
       >
-        « Trang truoc
+        &#8249; Truoc
       </button>
       {pages.map((p) => (
         <button
           key={p}
+          className={`page-btn ${p === currentPage ? 'active' : ''}`}
           onClick={() => onPageChange(p)}
-          style={{
-            fontWeight: p === currentPage ? 'bold' : 'normal',
-            textDecoration: p === currentPage ? 'underline' : 'none',
-          }}
         >
           {p + 1}
         </button>
       ))}
       <button
+        className="page-btn page-nav"
         disabled={currentPage >= totalPages - 1}
         onClick={() => onPageChange(currentPage + 1)}
       >
-        Trang sau »
+        Sau &#8250;
       </button>
     </div>
   );

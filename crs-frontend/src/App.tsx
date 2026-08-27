@@ -15,10 +15,17 @@ function App() {
   };
 
   return (
-    <div style={{ padding: 24, fontFamily: 'sans-serif', maxWidth: 800, margin: '0 auto' }}>
-      <h1>Danh sach mon hoc</h1>
-      <SearchBox onSearch={handleSearch} />
-      <div style={{ marginTop: 16 }}>
+    <div className="app-container">
+      <div className="app-header">
+        <h1>Danh sach mon hoc</h1>
+        <p>Tim kiem va dang ky mon hoc cho hoc ky nay</p>
+      </div>
+
+      <div className="card" style={{ marginBottom: 20 }}>
+        <SearchBox onSearch={handleSearch} />
+      </div>
+
+      <div className="card">
         <CourseList
           courses={courses}
           state={state}
@@ -26,7 +33,12 @@ function App() {
           onRetry={refetch}
         />
       </div>
+
       <Pagination currentPage={page} totalPages={totalPages} onPageChange={setPage} />
+
+      <div className="footer-info">
+        CRS - He thong quan ly dang ky mon hoc
+      </div>
     </div>
   );
 }

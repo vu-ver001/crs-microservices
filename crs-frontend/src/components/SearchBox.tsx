@@ -16,19 +16,15 @@ export default function SearchBox({ onSearch, placeholder }: SearchBoxProps) {
   }, [inputValue, onSearch]);
 
   return (
-    <input
-      type="text"
-      value={inputValue}
-      onChange={(e) => setInputValue(e.target.value)}
-      placeholder={placeholder ?? 'Tim kiem theo ten mon hoc...'}
-      style={{
-        width: '100%',
-        maxWidth: 400,
-        padding: '8px 12px',
-        fontSize: 14,
-        border: '1px solid #ccc',
-        borderRadius: 6,
-      }}
-    />
+    <div className="search-wrapper">
+      <span className="search-icon">&#128269;</span>
+      <input
+        type="text"
+        className="search-input"
+        value={inputValue}
+        onChange={(e) => setInputValue(e.target.value)}
+        placeholder={placeholder ?? 'Tim kiem theo ten mon hoc...'}
+      />
+    </div>
   );
 }
