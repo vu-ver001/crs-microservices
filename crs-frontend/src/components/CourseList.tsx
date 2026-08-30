@@ -1,5 +1,5 @@
 // path: crs-frontend/src/components/CourseList.tsx
-// purpose: cap nhat onEdit/onDelete thanh optional, chi hien cot "Thao tac" khi duoc truyen vao
+// purpose: bo sung prop onRegister (tuy chon) va registeringId cho trang Dang ky hoc phan
 import type { Course } from '../types/course';
 import type { LoadState } from '../api/useCourses';
 
@@ -10,6 +10,8 @@ interface CourseListProps {
   onRetry: () => void;
   onEdit?: (course: Course) => void;
   onDelete?: (course: Course) => void;
+  onRegister?: (course: Course) => void;
+  registeringId?: number | null;
 }
 
 function getSeatsClass(soChoConLai: number, soChoToiDa: number): string {
@@ -29,6 +31,8 @@ export default function CourseList({
   onRetry,
   onEdit,
   onDelete,
+  onRegister,
+  registeringId,
 }: CourseListProps) {
   if (state === 'loading') {
     return (
@@ -61,7 +65,7 @@ export default function CourseList({
     );
   }
 
-  const showActions = !!onEdit || !!onDelete;
+  const showActions = !!onEdit || !!onDelete || !!onRegister;
 
   return (
     <table className="course-table">
@@ -107,6 +111,20 @@ export default function CourseList({
                     onClick={() => onDelete(course)}
                   >
                     Xóa
+                  </button>
+                )}
+                {onRegister && (
+                  <button
+                    className={`btn ${course.soChoConLai === 0 ? 'btn-outline' : 'btn-primary'}`}
+                    style={{ padding: '4px 14px', fontSize: 13 }}
+                    onClick={() => onRegister(course)}
+                    disabled={course.soChoConLai === 0 || registeringId === course.id}
+                  >
+                    {registeringId === course.id
+                      ? 'Đang xử lý...'
+                      : course.soChoConLai === 0
+                      ? 'Hết chỗ'
+                      : 'Đăng ký'}
                   </button>
                 )}
               </td>

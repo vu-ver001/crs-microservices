@@ -1,5 +1,5 @@
 // path: crs-frontend/src/api/courseApi.ts
-// purpose: cac ham goi API lien quan Course, dung chung axiosClient da cau hinh o muc B.2
+// purpose: cac ham goi API lien quan Course, dung chung axiosClient da cau hinh
 import axiosClient from './axiosClient';
 import type { Course, PagedResponse, CourseFormValues } from '../types/course';
 
@@ -7,6 +7,10 @@ export const getCourses = (keyword?: string, page = 0, size = 10) => {
   return axiosClient.get<PagedResponse<Course>>('/api/courses', {
     params: { keyword, page, size },
   });
+};
+
+export const getCourseById = (id: number) => {
+  return axiosClient.get<Course>(`/api/courses/${id}`);
 };
 
 const toPayload = (values: CourseFormValues) => ({

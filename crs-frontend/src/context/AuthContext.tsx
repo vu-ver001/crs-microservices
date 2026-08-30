@@ -1,10 +1,10 @@
 // path: crs-frontend/src/context/AuthContext.tsx
-// purpose: quan ly trang thai dang nhap toan cuc, ghi/doc token dung key 'crs_token'
-// da thong nhat tu Buoi 7 - axiosClient KHONG can sua lai
+// purpose: quan ly trang thai dang nhap toan cuc, luu id, username, role va token dung key 'crs_token'
 import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 import type { LoginResponse } from '../types/auth';
 
 interface AuthUser {
+  id: number;
   username: string;
   role: 'ADMIN' | 'STUDENT';
 }
@@ -40,7 +40,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = (data: LoginResponse) => {
     localStorage.setItem(TOKEN_KEY, data.token);
-    const authUser: AuthUser = { username: data.username, role: data.role };
+    const authUser: AuthUser = { id: data.userId, username: data.username, role: data.role };
     localStorage.setItem(USER_KEY, JSON.stringify(authUser));
     setUser(authUser);
   };
