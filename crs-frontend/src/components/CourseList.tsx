@@ -6,6 +6,8 @@ interface CourseListProps {
   state: LoadState;
   errorMessage: string;
   onRetry: () => void;
+  onEdit: (course: Course) => void;
+  onDelete: (course: Course) => void;
 }
 
 function getSeatsClass(soChoConLai: number, soChoToiDa: number): string {
@@ -18,7 +20,7 @@ function getSeatsLabel(soChoConLai: number, soChoToiDa: number): string {
   return `${soChoConLai} / ${soChoToiDa}`;
 }
 
-export default function CourseList({ courses, state, errorMessage, onRetry }: CourseListProps) {
+export default function CourseList({ courses, state, errorMessage, onRetry, onEdit, onDelete }: CourseListProps) {
   if (state === 'loading') {
     return (
       <div className="loading-container">
@@ -54,9 +56,10 @@ export default function CourseList({ courses, state, errorMessage, onRetry }: Co
     <table className="course-table">
       <thead>
         <tr>
-          <th>Ten mon hoc</th>
-          <th style={{ width: 100 }}>Tin chi</th>
-          <th style={{ width: 140 }}>So cho con lai</th>
+          <th>Tên môn học</th>
+          <th style={{ width: 100 }}>Tín chỉ</th>
+          <th style={{ width: 140 }}>Số chỗ còn lại</th>
+          <th style={{ width: 160 }}>Thao tác</th>
         </tr>
       </thead>
       <tbody>
@@ -68,6 +71,18 @@ export default function CourseList({ courses, state, errorMessage, onRetry }: Co
               <span className={`seats-badge ${getSeatsClass(course.soChoConLai, course.soChoToiDa)}`}>
                 {getSeatsLabel(course.soChoConLai, course.soChoToiDa)}
               </span>
+            </td>
+            <td>
+              <button className="btn btn-outline" style={{ padding: '4px 12px', fontSize: 13 }} onClick={() => onEdit(course)}>
+                Sửa
+              </button>
+              <button
+                className="btn btn-primary"
+                style={{ marginLeft: 8, padding: '4px 12px', fontSize: 13, background: 'var(--error)', borderColor: 'var(--error)' }}
+                onClick={() => onDelete(course)}
+              >
+                Xóa
+              </button>
             </td>
           </tr>
         ))}
