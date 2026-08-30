@@ -1,3 +1,5 @@
+// path: crs-frontend/src/components/CourseList.tsx
+// purpose: cap nhat onEdit/onDelete thanh optional, chi hien cot "Thao tac" khi duoc truyen vao
 import type { Course } from '../types/course';
 import type { LoadState } from '../api/useCourses';
 
@@ -6,8 +8,8 @@ interface CourseListProps {
   state: LoadState;
   errorMessage: string;
   onRetry: () => void;
-  onEdit: (course: Course) => void;
-  onDelete: (course: Course) => void;
+  onEdit?: (course: Course) => void;
+  onDelete?: (course: Course) => void;
 }
 
 function getSeatsClass(soChoConLai: number, soChoToiDa: number): string {
@@ -20,12 +22,19 @@ function getSeatsLabel(soChoConLai: number, soChoToiDa: number): string {
   return `${soChoConLai} / ${soChoToiDa}`;
 }
 
-export default function CourseList({ courses, state, errorMessage, onRetry, onEdit, onDelete }: CourseListProps) {
+export default function CourseList({
+  courses,
+  state,
+  errorMessage,
+  onRetry,
+  onEdit,
+  onDelete,
+}: CourseListProps) {
   if (state === 'loading') {
     return (
       <div className="loading-container">
         <div className="spinner" />
-        <p className="loading-text">Dang tai danh sach mon hoc...</p>
+        <p className="loading-text">Đang tải danh sách môn học...</p>
       </div>
     );
   }
@@ -36,7 +45,7 @@ export default function CourseList({ courses, state, errorMessage, onRetry, onEd
         <div className="error-icon">&#9888;</div>
         <p className="error-message">{errorMessage}</p>
         <button className="btn btn-primary" onClick={onRetry}>
-          &#8635; Thu lai
+          &#8635; Thử lại
         </button>
       </div>
     );
@@ -46,11 +55,13 @@ export default function CourseList({ courses, state, errorMessage, onRetry, onEd
     return (
       <div className="empty-container">
         <div className="empty-icon">&#128270;</div>
-        <p className="empty-title">Khong tim thay mon hoc nao phu hop</p>
-        <p className="empty-subtitle">Thu tim kiem voi tu khoa khac</p>
+        <p className="empty-title">Không tìm thấy môn học nào phù hợp</p>
+        <p className="empty-subtitle">Thử tìm kiếm với từ khóa khác</p>
       </div>
     );
   }
+
+  const showActions = !!onEdit || !!onDelete;
 
   return (
     <table className="course-table">
@@ -59,7 +70,7 @@ export default function CourseList({ courses, state, errorMessage, onRetry, onEd
           <th>Tên môn học</th>
           <th style={{ width: 100 }}>Tín chỉ</th>
           <th style={{ width: 140 }}>Số chỗ còn lại</th>
-          <th style={{ width: 160 }}>Thao tác</th>
+          {showActions && <th style={{ width: 160 }}>Thao tác</th>}
         </tr>
       </thead>
       <tbody>
@@ -72,18 +83,34 @@ export default function CourseList({ courses, state, errorMessage, onRetry, onEd
                 {getSeatsLabel(course.soChoConLai, course.soChoToiDa)}
               </span>
             </td>
-            <td>
-              <button className="btn btn-outline" style={{ padding: '4px 12px', fontSize: 13 }} onClick={() => onEdit(course)}>
-                Sửa
-              </button>
-              <button
-                className="btn btn-primary"
-                style={{ marginLeft: 8, padding: '4px 12px', fontSize: 13, background: 'var(--error)', borderColor: 'var(--error)' }}
-                onClick={() => onDelete(course)}
-              >
-                Xóa
-              </button>
-            </td>
+            {showActions && (
+              <td>
+                {onEdit && (
+                  <button
+                    className="btn btn-outline"
+                    style={{ padding: '4px 12px', fontSize: 13 }}
+                    onClick={() => onEdit(course)}
+                  >
+                    Sửa
+                  </button>
+                )}
+                {onDelete && (
+                  <button
+                    className="btn btn-primary"
+                    style={{
+                      marginLeft: 8,
+                      padding: '4px 12px',
+                      fontSize: 13,
+                      background: 'var(--error)',
+                      borderColor: 'var(--error)',
+                    }}
+                    onClick={() => onDelete(course)}
+                  >
+                    Xóa
+                  </button>
+                )}
+              </td>
+            )}
           </tr>
         ))}
       </tbody>
