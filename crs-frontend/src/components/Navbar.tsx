@@ -31,12 +31,20 @@ export default function Navbar() {
             Danh sách môn học
           </Link>
           {isAuthenticated && user?.role === 'ADMIN' && (
-            <Link
-              to="/admin/courses"
-              className={`navbar-link ${isActive('/admin/courses') ? 'active' : ''}`}
-            >
-              Quản trị môn học
-            </Link>
+            <>
+              <Link
+                to="/admin/courses"
+                className={`navbar-link ${isActive('/admin/courses') ? 'active' : ''}`}
+              >
+                Quản trị môn học
+              </Link>
+              <Link
+                to="/admin/api-keys"
+                className={`navbar-link ${isActive('/admin/api-keys') ? 'active' : ''}`}
+              >
+                Quản lý API Key
+              </Link>
+            </>
           )}
           {isAuthenticated && user?.role === 'STUDENT' && (
             <>
