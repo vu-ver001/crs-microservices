@@ -51,10 +51,16 @@ spring:
             - id: auth-service-apikeys
               uri: ${AUTH_SERVICE_URL:http://localhost:8081}
               predicates:
-                - Path=/api/api-keys,/api/api-keys/**
+                - Path=/api/api-keys
+              filters:
+                - RewritePath=/api/api-keys, /api-keys
+
+            - id: auth-service-apikeys-detail
+              uri: ${AUTH_SERVICE_URL:http://localhost:8081}
+              predicates:
+                - Path=/api/api-keys/**
               filters:
                 - RewritePath=/api/api-keys/(?<segment>.*), /api-keys/${segment}
-                - RewritePath=/api/api-keys, /api-keys
 
 # CORS tap trung tai Gateway. Luu y: Gateway dung variant WebMVC
 # (spring-cloud-starter-gateway-server-webmvc) nen block globalcors cua WebFlux

@@ -33,7 +33,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/auth/**").permitAll()
                         .requestMatchers("/internal/**").permitAll() // goi tu api-gateway, xem muc C
-                        .requestMatchers("/api-keys/**").hasRole("ADMIN")
+                        .requestMatchers("/api-keys", "/api-keys/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
